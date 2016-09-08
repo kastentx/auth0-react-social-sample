@@ -4,8 +4,9 @@ import Auth0Lock from 'auth0-lock'
 export default class AuthService {
   constructor(clientId, domain) {
     // Configure Auth0
-    this.lock = new Auth0Lock(clientId, domain, {
-      allowedConnections: ['google', 'facebook']
+    this.lock = new Auth0Lock(clientId, domain, { 
+      allowedConnections: ['google-oauth2', 'facebook'],
+      languageDictionary: { title: "Prove your identity.." } 
     })
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', this._doAuthentication.bind(this))

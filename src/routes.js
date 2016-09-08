@@ -2,9 +2,9 @@
 import React from 'react'
 import {Route, IndexRedirect} from 'react-router'
 import AuthService from 'utils/AuthService'
-import Container from './Container'
-import Home from './Home/Home'
-import Login from './Login/Login'
+import Container from './views/Main/Container'
+import Home from './views/Main/Home/Home'
+import Login from './views/Main/Login/Login'
 
 const auth = new AuthService(__AUTH0_CLIENT_ID__, __AUTH0_DOMAIN__);
 
