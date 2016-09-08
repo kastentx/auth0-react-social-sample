@@ -1,26 +1,14 @@
-import { EventEmitter } from 'events'
-import { isTokenExpired } from './jwtHelper'
+/* ===== ./src/utils/AuthService.js ===== */
 import Auth0Lock from 'auth0-lock'
-import LogoImg from 'images/test-icon.png';
 
-
-export default class AuthService extends EventEmitter {
+export default class AuthService {
   constructor(clientId, domain) {
-    super()
     // Configure Auth0
     this.lock = new Auth0Lock(clientId, domain, {
-      theme: {
-        logo: LogoImg,
-        primaryColor: "#b81b1c"
-      },
-      languageDictionary: {
-        title: "My Company"
-      }
+      allowedConnections: ['google', 'facebook']
     })
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', this._doAuthentication.bind(this))
-    // Add callback for lock `authorization_error` event
-    this.lock.on('authorization_error', this._authorizationError.bind(this))
     // binds login functions to keep this context
     this.login = this.login.bind(this)
   }
@@ -28,19 +16,6 @@ export default class AuthService extends EventEmitter {
   _doAuthentication(authResult){
     // Saves the user token
     this.setToken(authResult.idToken)
-    // Async loads the user profile data
-    this.lock.getProfile(authResult.idToken, (error, profile) => {
-      if (error) {
-        console.log('Error loading the Profile', error)
-      } else {
-        this.setProfile(profile)
-      }
-    })
-  }
-
-  _authorizationError(error){
-    // Unexpected authentication error
-    console.log('Authentication Error', error)
   }
 
   login() {
@@ -50,21 +25,7 @@ export default class AuthService extends EventEmitter {
 
   loggedIn(){
     // Checks if there is a saved token and it's still valid
-    const token = this.getToken()
-    return !!token && !isTokenExpired(token)
-  }
-
-  setProfile(profile){
-    // Saves profile data to localStorage
-    localStorage.setItem('profile', JSON.stringify(profile))
-    // Triggers profile_updated event to update the UI
-    this.emit('profile_updated', profile)
-  }
-
-  getProfile(){
-    // Retrieves the profile data from localStorage
-    const profile = localStorage.getItem('profile')
-    return profile ? JSON.parse(localStorage.profile) : {}
+    return !!this.getToken()
   }
 
   setToken(idToken){
@@ -80,6 +41,5 @@ export default class AuthService extends EventEmitter {
   logout(){
     // Clear user token and profile data from localStorage
     localStorage.removeItem('id_token');
-    localStorage.removeItem('profile');
   }
 }
