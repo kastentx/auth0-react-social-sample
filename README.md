@@ -4,50 +4,10 @@
 
 This example shows how to customize the `Lock` widget. Sometimes you need to change some UI stuff so this is what we are going to do.
 
-## Getting Started
+Much of this code was taken from the auto-created "sample app" on Auth0's site.
 
-The library `auth0-lock` provides the user authentication, and we also have `src/utils/AuthService.js` class to wrap Lock Widget usage and customization.
+This is basically the React.js Single Page App version, with my API Keys and options set.
 
-In order to get start, run the three commands below. Make sure your `.env` file has the correct values from your auth0 account.
-
-```bash
-# Install the dependencies
-npm install
-
-# copy configuration and replace with your own
-cp .env.example .env
-
-# Run
-npm start
-```
-
-The npm start command uses webpack to compile the application code and run a simple server for the development environment. It also keeps watching for file changes, updating the browser tab properly.
-
-Shut it down manually with Ctrl-C.
-
-## Important Snippets
-
-### 1. AuthService customizing the lock instance
-
-```javascript
-/* ===== ./src/utils/AuthService.js ===== */
-... //omitting some code
-import LogoImg from 'images/test-icon.png';
-
-export default class AuthService extends EventEmitter {
-  constructor(clientId, domain) {
-    super()
-    // Configure Auth0
-    this.lock = new Auth0Lock(clientId, domain, {
-      theme: {
-        logo: LogoImg,
-        primaryColor: "#b81b1c"
-      }
-    })
-    ... //omitting some code
-  }
-  ... //omitting some code
-}
 ```
 
 ## Used Libraries
